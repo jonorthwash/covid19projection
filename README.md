@@ -19,6 +19,7 @@ Delaware County data from
 # Code sources
 
 * `statsFunctions.js` functions from https://stackoverflow.com/questions/8816729/javascript-equivalent-for-inverse-normal-function-eg-excels-normsinv-or-nor/55837025
+* `jquery.csv.min.js` from http://bl.ocks.org/espinielli/8d106a5cf9aa99734d43#jquery.csv.min.js
 
 # License
 
