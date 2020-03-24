@@ -12,9 +12,11 @@ Feel free to submit issues or PRs, or simply fork and modify.
 
 # Data sources
 
-Delaware County data from
+Delaware County data (`pa_delco.csv`) from:
 * https://www.health.pa.gov/topics/disease/coronavirus/Pages/Archives.aspx
 * https://www.health.pa.gov/topics/disease/coronavirus/Pages/Cases.aspx
+Alternative data (`pa_delco1.csv`) from:
+* https://www.chesco.org/4376/Coronavirus-COVID-19
 
 # Code sources
 

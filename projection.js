@@ -15,10 +15,10 @@ function getMaxHospitalisationsPerDay(totalInfections) {
 }
 
 function getCurrentNumberOfInfections(data) {
-	header = data[0];
-	casesIdx = header.findIndex(function (x){return x=="total cases"});
+	var header = data[0];
+	var casesIdx = header.findIndex(function (x){return x=="total cases"});
 	//console.log(header, casesIdx);
-	latestRow = data[Object.keys(data).pop()];
+	var latestRow = data[Object.keys(data).pop()];
 	//console.log(latestRow[casesIdx]);
 	return latestRow[casesIdx];
 }
@@ -38,6 +38,7 @@ function getDaysSinceFirstInfection(data) {
 }
 
 function makeDataObject (data, currentStdevsFromMean, latestDate) {
+	var header = data[0];
 	var dateIdx = header.findIndex(function (x){return x=="date"});
 	var beginDate = data[1][dateIdx];
 	var endDate = new Date($("#lastViewDate").val());  // 05 = June
@@ -72,6 +73,7 @@ function getNumberOfHospitalisations(data, currentStdevsFromMean, maxHospitalisa
 	//});
 
 	//console.log(data);
+	var header = data[0];
 	var dateIdx = header.findIndex(function (x){return x=="date"});
 	var todaysDate = new Date(data[Object.keys(data).pop()][dateIdx]);
 
