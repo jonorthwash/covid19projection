@@ -113,12 +113,18 @@
 			}
 			th.header {
 				background: silver ;
+				text-align: center ;
+				font-weight: bold ;
 			}
 			a {
 				text-decoration: none;
 			}
 			a:hover {
 				text-decoration: underline;
+			}
+			th {
+				text-align: left;
+				font-weight: normal;
 			}
 		</style>
 	</head>
@@ -128,7 +134,7 @@
 		<div style="float: left; padding: 1em; width: 20em;">
 		<p style="font-weight: bold; font-size: 115%; margin-top: 0.2em; margin-bottom: 0.2em;">Delaware County, Pennsylvania</p>
 		<table>
-			<tr><th colspan="2" class="header">Adjustable numbers</th></tr>
+			<tr><th colspan="2" class="header">Demographic numbers</th></tr>
 			<tr>
 				<th>Population</th>
 				<td><input class="number" id="population" type="number" name="population" value="565000" style="width: 8em;" min="1" max="10000000" oninput="updateMath();"/></td>
@@ -137,6 +143,7 @@
 				<th>Hospital beds</th>
 				<td><input class="number" id="hospitalBeds" type="number" name="hospitalBeds" value="1067" style="width: 8em;" min="1" max="10000000"  oninput="updateMath();"/></td>
 			</tr>
+			<tr><th colspan="2" class="header">Disease spread variables</th></tr>
 			<tr>
 				<th>Days per standard deviation</th>
 				<td><input class="number" id="daysPerStdev" type="number" name="daysPerStdev" value="14" style="width: 4em;" min="1" max="1000"  oninput="updateMath();"/></td>
@@ -153,9 +160,10 @@
 				<th>Hospitalisations per infection</th>
 				<td><input class="number" id="hospitalisationsPerInfection" type="number" name="hospitalisationsPerInfection" value=".2" style="width: 4em;" min="0.00" max="1.00" step=".01" oninput="updateMath();"/></td>
 			</tr>
+			<tr><th colspan="2" class="header">Adjust view</th></tr>
 			<tr>
-				<th>Last date to view</th>
-				<td><input class="number" id="lastViewDate" type="date" name="lastViewDate" value="2020-04-11"  min="1" max="100" oninput="updateMath();"/></td>
+				<th colspan="2">Last date to view
+					<input style="float: right" class="number" id="lastViewDate" type="date" name="lastViewDate" value="2020-04-11"  min="1" max="100" oninput="updateMath();"/></th>
 			</tr>
 
 			<tr><th colspan="2" class="header">Current numbers</th></tr>
