@@ -26,4 +26,4 @@ Alternative data (`pa_delco1.csv`) from:
 
 # License
 
-[GPL v3](https://www.gnu.org/licenses/gpl-3.0.html)
+[GPL v3](LICENSE)
