@@ -1,11 +1,11 @@
 
-var hospitalisationsPerInfection = 0.2 ;
+//var hospitalisationsPerInfection = 0.2 ;
 //var hospitalisationDuration = 9 ;  // days
-var infectionsPerCapita = 0.4 ;
+//var infectionsPerCapita = 0.4 ;
 //var daysPerStdev = 14 ;
 //var currentCases = 54 ;
 
-function getMaxHospitalisationsPerDay(totalInfections) {
+function getMaxHospitalisationsPerDay(totalInfections, hospitalisationsPerInfection) {
 	halfOfAllInfections = totalInfections / 2 ; // number of infections in 1.34 stdev around peak
 	rateOfCasesPerStdev = halfOfAllInfections / 1.34 ;  // across 1.34 interval
 	maxCasesPerStdev =  rateOfCasesPerStdev / 0.95 ;
@@ -147,9 +147,12 @@ function getDataWithProjection(data, curHospitalisations) {
 function updateMath() {
 	var dataArray = $("body").data("data");
 	var population = $("#population").val() ;
+	var infectionsPerCapita = $("#infectionsPerCapita").val() ;
+	var hospitalisationsPerInfection = $("#hospitalisationsPerInfection").val() ;
+
 
 	var totalInfections = population * infectionsPerCapita ;
-	var maxHospitalisationsPerDay = getMaxHospitalisationsPerDay(totalInfections);
+	var maxHospitalisationsPerDay = getMaxHospitalisationsPerDay(totalInfections, hospitalisationsPerInfection);
 	var totalHospitalisations = totalInfections * hospitalisationsPerInfection ;
 
 	var currentNumberOfInfections = getCurrentNumberOfInfections(dataArray) ;
