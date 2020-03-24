@@ -108,6 +108,12 @@
 			th.header {
 				background: silver ;
 			}
+			a {
+				text-decoration: none;
+			}
+			a:hover {
+				text-decoration: underline;
+			}
 		</style>
 	</head>
 
@@ -151,6 +157,7 @@
 			<tr><th>Total hospitalisations</th><td><input class="number" style="width: 6em;" min="1" max="10000000" type="number" id="totalHospitalisations"/></td></tr>
 			<tr><th>Max hospitalisations per day</th><td><input class="number" style="width: 6em;" min="1" max="10000000" type="number" id="maxHospitalisationsPerDay"/></td></tr>
 		</table>
+		<p style="text-align: center"><a href="https://github.com/jonorthwash/covid19math/">Code / data / documentation available on GitHub</a></p>
 		</div>
 		<div id="covidgraph" style="display:inline-block;"></div>
 
