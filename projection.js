@@ -173,6 +173,43 @@ function updateMath() {
 
 }
 
+
+// The following functions are based on https://stackoverflow.com/a/32060010/5181692
+
+function drawAdditionalHAxis(chart,dataTable){
+    var layout = chart.getChartLayoutInterface();
+    var chartArea = layout.getChartAreaBoundingBox();
+
+    var svg = chart.getContainer().getElementsByTagName('svg')[0];
+    var lastVal = dataTable.getValue(dataTable.getNumberOfRows()-1,1);
+    var yLoc = layout.getYLocation(lastVal);
+    svg.appendChild(createLine(chartArea.left,yLoc,chartArea.width + chartArea.left,yLoc,'red',1)); // axis line
+    svg.appendChild(createText(chartArea.left - 40 ,yLoc + 15,'Arial','13','red', "hospital beds")); // axis label 
+}
+
+function createLine(x1, y1, x2, y2, color, w) {
+    var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', x1);
+    line.setAttribute('y1', y1);
+    line.setAttribute('x2', x2);
+    line.setAttribute('y2', y2);
+    line.setAttribute('stroke', color);
+    line.setAttribute('stroke-width', w);
+    line.setAttribute('stroke-dasharray', '3');
+    return line;
+}
+
+function createText(x, y, fontFamily, fontSize,color,value) {
+    var text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    text.setAttribute('x', x);
+    text.setAttribute('y', y);
+    text.setAttribute('font-family', fontFamily);
+    text.setAttribute('font-size', fontSize);
+    text.setAttribute('fill', color);
+    text.innerHTML = value;
+    return text;
+}
+
 $(document).load( function () {
 	lastViewDate.min = new Date().toISOString().split("T")[0];
 	//updateMath();

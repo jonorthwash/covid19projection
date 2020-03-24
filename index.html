@@ -68,6 +68,10 @@
 				// this new DataTable object holds all the data
 				var data = new google.visualization.arrayToDataTable(arrayData);
 				// CAPACITY - En-route ATFM delay - YY - CHART
+				var hospitalLimit = google.visualization.arrayToDataTable([
+					['x', 'y'],
+					['—', $("#hospitalBeds").val()]
+				]);
 				var covidgraph = new google.visualization.ChartWrapper({
 					chartType: 'LineChart',
 					containerId: 'covidgraph',
@@ -92,6 +96,8 @@
 					}
 				});
 				covidgraph.draw();
+				console.log(covidgraph.getChart().getChartLayoutInterface());
+				drawAdditionalHAxis(covidgraph.getChart(), hospitalLimit);
 			//}
 		}
 
