@@ -3,7 +3,7 @@ var hospitalisationsPerInfection = 0.2 ;
 //var hospitalisationDuration = 9 ;  // days
 var infectionsPerCapita = 0.4 ;
 //var daysPerStdev = 14 ;
-var currentCases = 54 ;
+//var currentCases = 54 ;
 
 function getMaxHospitalisationsPerDay(totalInfections) {
 	halfOfAllInfections = totalInfections / 2 ; // number of infections in 1.34 stdev around peak
@@ -152,10 +152,10 @@ function updateMath() {
 	var maxHospitalisationsPerDay = getMaxHospitalisationsPerDay(totalInfections);
 	var totalHospitalisations = totalInfections * hospitalisationsPerInfection ;
 
-	var currentStdevsFromMean = NormSInv(currentCases / totalHospitalisations) ;
-	//console.log(currentStdevsFromMean);
-
 	var currentNumberOfInfections = getCurrentNumberOfInfections(dataArray) ;
+	var currentStdevsFromMean = NormSInv(currentNumberOfInfections / totalHospitalisations) ;
+	console.log(currentNumberOfInfections, totalHospitalisations, currentStdevsFromMean);
+
 	var daysSinceFirstInfection = getDaysSinceFirstInfection(dataArray) ;
 
 	$("#maxHospitalisationsPerDay").val(Math.round(maxHospitalisationsPerDay));
