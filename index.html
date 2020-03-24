@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+		<!-- http://t.co/dKP3o1e -->
+		<meta name="HandheldFriendly" content="True">
+		<meta name="MobileOptimized" content="320">
+
+		<title>COVID-19 in Delaware County, Pennsylvania</title>
+		<meta name="description" content="test">
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<!-- script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script -->
+		<script src="jquery.csv.min.js"></script>
+		<script src="statsFunctions.js"></script>
+		<script src="projection.js"></script>
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+		<script type="text/javascript"> // load the visualisation API
+			google.load('visualization', '1', { packages: ['corechart', 'controls'] });
+		</script>
+
+		<script type="text/javascript">
+		//query = new google.visualization.Query('csv?url=http://localhost:8080/myWebApp/csv_example.csv');
+
+		var TITLE = 'COVID-19 in Delaware County, Pennsylvania';
+		var WIDTH = 800 ; // 450 ;
+		var HEIGHT = 600 ; // 160 ;
+
+		CSV_LOADED = false;
+
+			$.get("pa_delco.csv", function(csvString) {
+				// transform the CSV string into a 2-dimensional array
+				var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+				$("body").data("data", arrayData);
+				//CSV_LOADED = true;
+				//google.setOnLoadCallback(drawVisualization);
+				//console.log("LOADED");
+				drawVisualization();
+				updateMath();
+			});
+
+
+		function drawVisualization() {
+			//console.log($("body").data("data"));
+			//if (CSV_LOADED) {
+				if (typeof $("body").data("datawithprojection") !== 'undefined'){
+					var arrayData = $("body").data("datawithprojection")
+				} else {
+					var arrayData = $("body").data("data");
+					console.log(arrayData);
+					var header = true;
+					$.each(arrayData, function(index, element) {
+						if (!header) {
+							thisDate = element[0]
+							element[0] = new Date(thisDate.substring(0,4), thisDate.substring(5,7)-1, thisDate.substring(8,10));
+						}
+						header = false;
+					});
+				}
+				//console.log(arrayData);
+
+				//console.log(arrayData);
+
+				// this new DataTable object holds all the data
+				var data = new google.visualization.arrayToDataTable(arrayData);
+				// CAPACITY - En-route ATFM delay - YY - CHART
+				var covidgraph = new google.visualization.ChartWrapper({
+					chartType: 'LineChart',
+					containerId: 'covidgraph',
+					dataTable: data,
+					options:{
+						width: WIDTH, height: HEIGHT,
+						title: TITLE,
+						titleTextStyle : {color: 'grey', fontSize: 18},
+						hAxis: {
+							format: 'MMM d',
+						},
+						vAxis: {
+							title: 'cases',
+						},
+						//crosshair: {trigger: 'both'},
+						focusTarget: 'category',
+						//theme: 'maximized',
+						chartArea: {width: '85%', height: '90%'},
+						legend: {position: 'in'},
+						titlePosition: 'in', //axisTitlesPosition: 'in',
+						//hAxis: {textPosition: 'in'}, vAxis: {textPosition: 'in'}
+					}
+				});
+				covidgraph.draw();
+			//}
+		}
+
+		//$(document).ready( function() { updateMath() });
+		//updateMath();
+		</script>
+		<style>
+			.number {
+				text-align: right;
+			}
+			td {
+				text-align: right ;
+			}
+			th.header {
+				background: silver ;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!-- div style="position: absolute; top:10; left: 10; z-index: 10; background-color: white;" -->
+		<div style="float: left; padding: 1em; width: 20em;">
+		<table>
+			<tr><th colspan="2" class="header">Adjustable numbers</th></tr>
+			<tr>
+				<th>Population</th>
+				<td><input class="number" id="population" type="number" name="population" value="565000" style="width: 8em;" min="1" max="10000000" oninput="updateMath();"/></td>
+			</tr>
+			<tr>
+				<th>Hospital beds</th>
+				<td><input class="number" id="hospitalBeds" type="number" name="hospitalBeds" value="1067" style="width: 8em;" min="1" max="10000000"  oninput="updateMath();"/></td>
+			</tr>
+			<tr>
+				<th>Days per standard deviation</th>
+				<td><input class="number" id="daysPerStdev" type="number" name="daysPerStdev" value="14" style="width: 4em;" min="1" max="1000"  oninput="updateMath();"/></td>
+			</tr>
+			<tr>
+				<th>Hospitalisation duration (days)</th>
+				<td><input class="number" id="hospitalisationDuration" type="number" name="hospitalisationDuration" value="9" style="width: 4em;" min="1" max="100" oninput="updateMath();"/></td>
+			</tr>
+			<tr>
+				<th>Last date to view</th>
+				<td><input class="number" id="lastViewDate" type="date" name="lastViewDate" value="2020-04-11"  min="1" max="100" oninput="updateMath();"/></td>
+			</tr>
+
+			<tr><th colspan="2" class="header">Current numbers</th></tr>
+			<tr>
+				<th>Current number of infections</th>
+				<td><input class="number" type="number" style="width: 4em;" min="1" max="10000000" id="currentNumberOfInfections"/></td>
+			</tr>
+			<tr>
+				<th>Days since first infection</th>
+				<td><input class="number" type="number" style="width: 4em;" min="1" max="5000"  id="daysSinceFirstInfection"/></td>
+			</tr>
+			<tr><th colspan="2" class="header">Projected</th></tr>
+			<tr><th>Total infections</th><td><input class="number" style="width: 6em;" min="1" max="10000000" type="number" id="totalInfections"/></td></tr>
+			<tr><th>Total hospitalisations</th><td><input class="number" style="width: 6em;" min="1" max="10000000" type="number" id="totalHospitalisations"/></td></tr>
+			<tr><th>Max hospitalisations per day</th><td><input class="number" style="width: 6em;" min="1" max="10000000" type="number" id="maxHospitalisationsPerDay"/></td></tr>
+		</table>
+		</div>
+		<div id="covidgraph" style="display:inline-block;"></div>
+
+	</body>
+</html>
