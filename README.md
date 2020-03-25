@@ -4,6 +4,8 @@
 
 This tool is meant to visualise the current state of the COVID-19 pandemic in a given area and project where things are headed, e.g., to determine when hospital beds will be at capacity.
 
+The tool assumes a Bell curve of new cases over time based on population size, proportion of the population affected, etc.; calculates where in the curve we are now; and extrapolates the rest of the curve based on that.
+
 Currently the data is only for a couple counties in Pennsylvania.  Feel free to submit more data via pull request!
 
 ## Use
