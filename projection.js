@@ -16,7 +16,7 @@ function getMaxHospitalisationsPerDay(totalInfections, hospitalisationsPerInfect
 
 function getCurrentNumberOfInfections(data) {
 	var header = data[0];
-	var casesIdx = header.findIndex(function (x){return x=="total cases"});
+	var casesIdx = header.findIndex(function (x){return x=="reported total cases"});
 	//console.log(header, casesIdx);
 	var latestRow = data[Object.keys(data).pop()];
 	//console.log(latestRow[casesIdx]);
@@ -29,10 +29,11 @@ function getDaysSinceFirstInfection(data) {
 	var latestRow = data[Object.keys(data).pop()];
 	var firstInfectionRow = data[1];
 	var currentInfectionRow = latestRow;
-	// console.log(currentInfectionRow);
-	var firstInfectionDate = firstInfectionRow[dateIdx];
-	var currentInfectionDate = currentInfectionRow[dateIdx];
-	// console.log(firstInfectionDate, currentInfectionDate);
+	//console.log(currentInfectionRow);
+	var firstInfectionDate = new Date(firstInfectionRow[dateIdx]);
+	var currentInfectionDate = new Date(currentInfectionRow[dateIdx]);
+	//console.log(firstInfectionRow[dateIdx], currentInfectionRow[dateIdx]);
+	//console.log(firstInfectionDate.toUTCString(), currentInfectionDate.toUTCString());
 	var numDays = Math.round((currentInfectionDate - firstInfectionDate) / (1000 * 3600 * 24));
 	return numDays
 }
@@ -40,30 +41,51 @@ function getDaysSinceFirstInfection(data) {
 function makeDataObject (data, currentStdevsFromMean, latestDate) {
 	var header = data[0];
 	var dateIdx = header.findIndex(function (x){return x=="date"});
-	var beginDate = data[1][dateIdx];
-	var endDate = new Date($("#lastViewDate").val());  // 05 = June
+	//var beginDate = new Date(data[1][dateIdx]);
+	var beginDate = new moment(data[1][dateIdx]);
+	//var endDate = new Date($("#lastViewDate").val());  // 05 = June
+	var endDate = new moment($("#lastViewDate").val());  // 05 = June
 	//var endDate = new Date(2020, 03, 10);  // 05 = June
 	//console.log(endDate);
 	//console.log(latestDate);
-	latestDate = new Date(latestDate);
-	if (endDate.getTime() < latestDate.getTime()) {
-		endDate = new Date(latestDate);
+	//latestDate = new Date(latestDate);
+	latestDate = new moment(latestDate);
+	//if (endDate.getTime() < latestDate.getTime()) {
+	if (endDate < latestDate) {
+		//endDate = new Date(latestDate);
+		endDate = Object.assign({}, latestDate);
 	}
+	//console.log(beginDate, endDate, latestDate);
 	var dates = [] ;
 	var dateData = {date: null, stdevFromMean: null, proportionOfMaxDailyInfectionsAtPeak: null, natLogOfRate: null, newHospitalisations: null, peopleInHospital: null}
 	//console.log(endDate);
-	currentDate = new Date(beginDate);  // gotta copy the variable or it screws things up
+	var currentDate = new moment(beginDate);  // gotta copy the variable or it screws things up
 	//console.log(currentDate);
 	while (currentDate <= endDate) {
 		var thisDateData = Object.assign({}, dateData) ; // copy object
-		thisDateData.date = new Date(currentDate) ;
-		if (currentDate.getTime() == latestDate.getTime()) {
+		//thisDateData.date = new Date(currentDate) ;
+		thisDateData.date = Object.assign({}, new moment(currentDate.format())) ;
+		//console.log(currentDate);
+		//console.log(thisDateData.date.toUTCString());
+		//if (currentDate.getTime() == latestDate.getTime()) {
+		if (currentDate == latestDate) {
 			thisDateData.stdevFromMean = currentStdevsFromMean;
 		}
 		//between.push(new Date(currentDate));
 		dates.push(thisDateData);
-		currentDate.setDate(currentDate.getDate() + 1);
+		//console.log(currentDate.getDate());
+		//var nextDate = new moment(moment(currentDate).add(1, 'days').format());
+		//console.log("NEXTDATE", nextDate);
+		//var nextDate = new Date((currentDate.getTime() + (1 * (1000 * 3600 * 24))))
+		//console.log(currentDate, "nextDate", nextDate);
+		//console.log(currentDate.toUTCString());
+		//currentDate.setUTCDate(currentDate.getUTCDate() + 1);
+		//console.log(currentDate.toUTCString());
+		//currentDate = Object.assign({}, nextDate);
+		currentDate = new moment(moment(currentDate).add(1, 'days').format());
+		//console.log(currentDate);
 	}
+	//console.log(dates)
 	return dates
 }
 
@@ -75,7 +97,7 @@ function getNumberOfHospitalisations(data, currentStdevsFromMean, maxHospitalisa
 	//console.log(data);
 	var header = data[0];
 	var dateIdx = header.findIndex(function (x){return x=="date"});
-	var todaysDate = new Date(data[Object.keys(data).pop()][dateIdx]);
+	var todaysDate = new moment(data[Object.keys(data).pop()][dateIdx]);
 
 	var hospitalisationDuration = $("#hospitalisationDuration").val() ;
 	var daysPerStdev = $("#daysPerStdev").val() ;
@@ -83,8 +105,11 @@ function getNumberOfHospitalisations(data, currentStdevsFromMean, maxHospitalisa
 	dates = makeDataObject(data, currentStdevsFromMean, todaysDate);
 
 	$.each(dates, function(index, element) {
-		if (element.date.getTime() !== todaysDate.getTime()) {
-			diffDays = Math.round( (element.date - todaysDate) / (1000 * 3600 * 24) ) ;
+		//if (element.date.getTime() !== todaysDate.getTime()) {
+		if (element.date !== todaysDate) {
+			//console.log(element.date);
+			diffDays = moment(element.date).diff(todaysDate, 'days');
+			//diffDays = Math.round( (element.date - todaysDate) / (1000 * 3600 * 24) ) ;
 			//console.log(diffDays)
 			element.stdevFromMean = currentStdevsFromMean + ( diffDays *(1/daysPerStdev) ) ;
 		}
@@ -93,12 +118,17 @@ function getNumberOfHospitalisations(data, currentStdevsFromMean, maxHospitalisa
 		element.natLogOfRate = Math.log(element.proportionOfMaxDailyInfectionsAtPeak);
 		element.newHospitalisations = element.proportionOfMaxDailyInfectionsAtPeak * maxHospitalisationsPerDay ;
 
+		//console.log(hospitalisationDuration,dates);
 		var daysAgo = dates.filter(obj => {
-			return obj.date.getTime() == element.date-hospitalisationDuration*(1000*3600*24)
+			//return obj.date.getTime() == element.date-hospitalisationDuration*(1000*3600*24)
+			//return obj.date == new moment(element.date).subtract(hospitalisationDuration, 'days'); //*(1000*3600*24)
+			comparisonDate = new moment(element.date).subtract(hospitalisationDuration, 'days'); //*(1000*3600*24)
+			//console.log(obj.date, comparisonDate);
+			return Math.abs(moment(obj.date).diff(new Date(new moment(element.date).subtract(hospitalisationDuration, 'days')), 'days')) < 1; //*(1000*3600*24)
 		})
-		//console.log(element.date, daysAgo);
-		//console.log(daysAgo[0]);
+		//console.log(daysAgo);
 		if (0 in daysAgo) {  // make sure we're not too early
+			//console.log(element.date.toUTCString(), daysAgo[0].date.toUTCString());
 			preHospitalisationNatLogOfRate = daysAgo[0].natLogOfRate ;
 			//console.log("HARGLE", preHospitalisationNatLogOfRate) ;
 			element.peopleInHospital = hospitalisationDuration * Math.exp((element.natLogOfRate + preHospitalisationNatLogOfRate)/2) * maxHospitalisationsPerDay
@@ -111,7 +141,7 @@ function getNumberOfHospitalisations(data, currentStdevsFromMean, maxHospitalisa
 }
 
 function getDataWithProjection(data, curHospitalisations) {
-	var outputArray = []
+	var outputArray = [];
 	outputArray.push(data[0].slice()) ; //$.extend(true, {}, data[0]); // copy header
 	//var maxColNum = Number(Object.keys(outputArray[0]).reduce((a,b) => outputArray[0][a] > outputArray[0][b] ? a : b ));
 	//console.log(outputArray);
@@ -122,10 +152,25 @@ function getDataWithProjection(data, curHospitalisations) {
 		var thisRow = [];
 		//console.log(data);
 		var correspondingData = data.filter(obj => {
-			var newDate = new Date(obj[0]);
-			return newDate.getTime() == element.date.getTime()
+			//console.log(obj[0]);
+			var newDate = new moment(new Date(obj[0]));
+			//var newDate = moment(obj[0]);
+			//return newDate.getTime() == element.date.getTime()
+			//console.log(element.date);
+			var testDate = new moment(element.date);
+			//console.log(newDate, testDate);
+			//return newDate == element.date
+			//console.log(newDate, testDate, newDate.getTime(), testDate.getTime());
+			//console.log(newDate.diff(testDate, 'days'));
+			//if (newDate === testDate) {
+			//	console.log(newDate, testDate);
+			//}
+			//return newDate == testDate
+			return (Math.abs(newDate.diff(testDate, 'days')) < 1);
 		});
 		//console.log(correspondingData);
+		//console.log(element.date);
+		//thisRow.push(new Date(element.date));
 		thisRow.push(element.date);
 		if (correspondingData.length !== undefined && correspondingData.length != 0) {
 			//console.log(correspondingData);
@@ -138,17 +183,39 @@ function getDataWithProjection(data, curHospitalisations) {
 		}
 		thisRow.push(element.peopleInHospital);
 		//console.log(thisRow);
+		//console.log(element);
 		outputArray.push(thisRow);
 	});
 	//console.log(outputArray);
 	return outputArray;
 }
 
+function reloadData() {
+	dataSource = $("#dataSource").val();
+	//console.log(dataSource);
+	$.get(dataSource, function(csvString) {
+		// transform the CSV string into a 2-dimensional array
+		var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+		$("body").data("data", arrayData);
+		updateMath();
+	});
+	//jQuery.ajax({
+	//	url: dataSource,
+	//	async: false,
+	//	success: function(csvString) {
+	//		var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+	//		$("body").data("data", arrayData);
+	//	}
+	//});
+}
+
 function updateMath() {
 	var dataArray = $("body").data("data");
+	//console.log(dataArray);
 	var population = $("#population").val() ;
 	var infectionsPerCapita = $("#infectionsPerCapita").val() ;
 	var hospitalisationsPerInfection = $("#hospitalisationsPerInfection").val() ;
+	var testingEfficacy = $("#testingEfficacy").val()
 
 
 	var totalInfections = population * infectionsPerCapita ;
@@ -156,10 +223,11 @@ function updateMath() {
 	var totalHospitalisations = totalInfections * hospitalisationsPerInfection ;
 
 	var currentNumberOfInfections = getCurrentNumberOfInfections(dataArray) ;
-	var currentStdevsFromMean = NormSInv(currentNumberOfInfections / totalHospitalisations) ;
-	console.log(currentNumberOfInfections, totalHospitalisations, currentStdevsFromMean);
+	var efficacyOffset = ((totalInfections - totalHospitalisations) / 100) * testingEfficacy;
+	var currentStdevsFromMean = NormSInv(currentNumberOfInfections / (totalHospitalisations + efficacyOffset)) ;
 
 	var daysSinceFirstInfection = getDaysSinceFirstInfection(dataArray) ;
+	//console.log(currentNumberOfInfections, daysSinceFirstInfection, totalHospitalisations, currentStdevsFromMean);
 
 	$("#maxHospitalisationsPerDay").val(Math.round(maxHospitalisationsPerDay));
 	$("#totalInfections").val( Math.round(totalInfections) );
