@@ -188,19 +188,19 @@
 			<tr><th colspan="2" class="header">Variables</th></tr>
 			<tr>
 				<th>Days per standard deviation</th>
-				<td><input class="number" id="daysPerStdev" type="number" name="daysPerStdev" value="14" style="width: 4em;" min="1" max="1000"  oninput="updateMath();"/></td>
+				<td><input class="number" id="daysPerStdev" type="number" name="daysPerStdev" title="How many days a single standard deviation of cases around the peak lasts" value="14" style="width: 4em;" min="1" max="1000"  oninput="updateMath();"/></td>
 			</tr>
 			<tr>
-				<th>Hospitalisation duration (days)</th>
-				<td><input class="number" id="hospitalisationDuration" type="number" name="hospitalisationDuration" value="9" style="width: 4em;" min="1" max="100" oninput="updateMath();"/></td>
+				<th>Hospitalisation duration</th>
+				<td><input class="number" id="hospitalisationDuration" type="number" name="hospitalisationDuration" title="The average duration of hospital stay in days" value="9" style="width: 4em;" min="1" max="100" oninput="updateMath();"/></td>
 			</tr>
 			<tr>
 				<th>Infections per capita</th>
-				<td><input class="number" id="infectionsPerCapita" type="number" name="infectionsPerCapita" value=".4" style="width: 4em;" min="0.00" max="1.00" step=".01" oninput="updateMath();"/></td>
+				<td><input class="number" id="infectionsPerCapita" type="number" name="infectionsPerCapita" title="The percentage of people in the population likely to be infected" value=".4" style="width: 4em;" min="0.00" max="1.00" step=".01" oninput="updateMath();"/></td>
 			</tr>
 			<tr>
 				<th>Hospitalisations per infection</th>
-				<td><input class="number" id="hospitalisationsPerInfection" type="number" name="hospitalisationsPerInfection" value=".2" style="width: 4em;" min="0.00" max="1.00" step=".01" oninput="updateMath();"/></td>
+				<td><input class="number" id="hospitalisationsPerInfection" type="number" name="hospitalisationsPerInfection" title="The percentage of cases needing hospitalisation" value=".2" style="width: 4em;" min="0.00" max="1.00" step=".01" oninput="updateMath();"/></td>
 			</tr>
 			<tr>
 				<th>Testing efficacy</th>
