@@ -33,6 +33,10 @@ Delaware County data (`pa_delco.csv`) and Montgomery County (`pa_montco.csv`) fr
 Alternative data (`pa_delco1.csv`) from:
 * https://www.chesco.org/4376/Coronavirus-COVID-19
 
+Hospital data from:
+* [List of hospitals in Pennsylvania](https://en.wikipedia.org/wiki/List_of_hospitals_in_Pennsylvania)
+* [Springfield Hospital](https://www.crozerkeystone.org/springfield)
+
 ## Code
 
 * `statsFunctions.js` functions from https://stackoverflow.com/questions/8816729/javascript-equivalent-for-inverse-normal-function-eg-excels-normsinv-or-nor/55837025
