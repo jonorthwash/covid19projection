@@ -148,6 +148,7 @@ function getNumberOfHospitalisations(data, currentStdevsFromMean, maxHospitalisa
 }
 
 function getDataWithProjection(data, curHospitalisations) {
+	var algorithm = $("#algorithm").val()
 	var outputArray = [];
 	outputArray.push(data[0].slice()) ; //$.extend(true, {}, data[0]); // copy header
 	//var maxColNum = Number(Object.keys(outputArray[0]).reduce((a,b) => outputArray[0][a] > outputArray[0][b] ? a : b ));
@@ -188,8 +189,11 @@ function getDataWithProjection(data, curHospitalisations) {
 		} else {
 			thisRow.push(null, null, null, null);
 		}
-		//thisRow.push(element.peopleInHospital);
-		thisRow.push(element.hospitalBedsInUse);
+		if (algorithm == 0) { // old algorithm
+			thisRow.push(element.peopleInHospital);
+		} else { // new algorithm
+			thisRow.push(element.hospitalBedsInUse);
+		}
 		//console.log(thisRow);
 		//console.log(element);
 		outputArray.push(thisRow);
