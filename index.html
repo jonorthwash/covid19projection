@@ -9,7 +9,7 @@
 		<meta name="HandheldFriendly" content="True">
 		<meta name="MobileOptimized" content="320">
 
-		<title>COVID-19 in Delaware County, Pennsylvania</title>
+		<title>COVID-19 tracking</title>
 		<meta name="description" content="test">
 
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -33,20 +33,28 @@
 
 		CSV_LOADED = false;
 
-			$.get("pa_delco.csv", function(csvString) {
+		$.get("pa_delco.csv", function(csvString) {
 			//console.log($("dataSource").val());
 			//$.get($("#dataSource").val(), function(csvString) {
-				// transform the CSV string into a 2-dimensional array
-				var arrayData = $.csv.toArrays(csvString, {
-					onParseValue: $.csv.hooks.castToScalar
-				});
-				$("body").data("data", arrayData);
-				//CSV_LOADED = true;
-				//google.setOnLoadCallback(drawVisualization);
-				//console.log("LOADED");
-				drawVisualization();
-				updateMath();
+			// transform the CSV string into a 2-dimensional array
+			var arrayData = $.csv.toArrays(csvString, {
+				onParseValue: $.csv.hooks.castToScalar
 			});
+			$("body").data("data", arrayData);
+			//CSV_LOADED = true;
+			//google.setOnLoadCallback(drawVisualization);
+			//console.log("LOADED");
+			drawVisualization();
+			updateMath();
+		});
+
+		//$(document).ready(function() {
+			$.getJSON("municipalities.json", function ( mundata ) {
+				//console.log(mundata);
+				$("body").data("municipalities", mundata);
+				setMunicipality();
+			});
+		//});
 
 
 		function drawVisualization() {
@@ -155,9 +163,13 @@
 	<body>
 		<!-- div style="position: absolute; top:10; left: 10; z-index: 10; background-color: white;" -->
 		<div style="float: left; padding: 1em; width: 20em;">
-		<p style="font-weight: bold; font-size: 115%; margin-top: 0.2em; margin-bottom: 0.2em;">Delaware County, Pennsylvania</p>
 		<table>
-			<tr><th colspan="2" class="header">Municipality data</th></tr>
+			<tr><th colspan="2" class="header">Municipality</th></tr>
+			<tr>
+				<th colspan="2" style="text-align: center;"><select style="font-weight: bold; font-size: 12pt;" id="municipality" onchange="setMunicipality();">
+					<option value="0">Delaware County, Pennsylvania</option>
+				</select></th>
+			</tr>
 			<tr>
 				<th>Data source</th>
 				<td><select id="dataSource" onchange="reloadData();">
@@ -199,7 +211,7 @@
 			<tr><th colspan="2" class="header">Adjust view</th></tr>
 			<tr>
 				<th colspan="2">Last date to view
-					<input style="float: right" class="number" id="lastViewDate" type="date" name="lastViewDate" value="2020-04-11"  min="1" max="100" oninput="updateMath();"/></th>
+					<input style="float: right" class="number" id="lastViewDate" type="date" name="lastViewDate" value="2020-04-13"  min="1" max="100" oninput="updateMath();"/></th>
 			</tr>
 
 			<tr><th colspan="2" class="header">Current numbers</th></tr>

@@ -1,8 +1,8 @@
 # Purpose
 
-This tool is meant to visualise the current state of the COVID-19 pandemic in a given area, e.g., to determine when hospital beds will be at capacity.
+This tool is meant to visualise the current state of the COVID-19 pandemic in a given area and project where things are headed, e.g., to determine when hospital beds will be at capacity.
 
-Currently the data is only for Delaware County, Pennsylvania.  It would be nice to be able to add arbitrary data sets, but I haven't made it do that yet.
+Currently the data is only for a couple counties in Pennsylvania.  Feel free to submit more data via pull request!
 
 # Use
 
@@ -12,7 +12,7 @@ Feel free to submit issues or PRs, or simply fork and modify.
 
 # Data sources
 
-Delaware County data (`pa_delco.csv`) from:
+Delaware County data (`pa_delco.csv`) and Montgomery County (`pa_montco.csv`) from:
 * https://www.health.pa.gov/topics/disease/coronavirus/Pages/Archives.aspx
 * https://www.health.pa.gov/topics/disease/coronavirus/Pages/Cases.aspx
 

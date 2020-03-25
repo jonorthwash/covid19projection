@@ -1,0 +1,21 @@
+{
+	"0": {
+		"name": "Delaware County, Pennsylvania",
+		"population": 565000,
+		"hospital beds": 1067,
+		"data sources":
+			{
+				"health.pa.gov": "pa_delco.csv",
+				"CesCo DoH": "pa_delco1.csv"
+			}
+	},
+	"1": {
+		"name": "Montgomery County, Pennsylvania",
+		"population": 830000,
+		"hospital beds": 3065,
+		"data sources":
+			{
+				"health.pa.gov": "pa_montco.csv"
+			}
+	}
+}

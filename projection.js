@@ -246,6 +246,46 @@ function updateMath() {
 
 }
 
+function setMunicipality () {
+	currentMun = $("#municipality").val();
+
+	mundata = $("body").data("municipalities");
+	$("#municipality").empty();
+	for(munId in mundata) {
+		if (munId == currentMun) {
+			selected = true;
+		} else {
+			selected = false;
+		}
+		$("#municipality").append(
+			$("<option></option>")
+				.attr("value", munId)
+				.attr("selected", selected)
+				.text(mundata[munId]["name"])
+		);
+	}
+
+	$("#population").val(mundata[currentMun]["population"]);
+	$("#hospitalBeds").val(mundata[currentMun]["hospital beds"]);
+
+	$("#dataSource").empty();
+
+	for(dataSource in mundata[currentMun]["data sources"]) {
+		$("#dataSource").append(
+			$("<option></option>")
+				.attr("value", mundata[currentMun]["data sources"][dataSource])
+				.text(dataSource)
+		);
+	}
+
+	TITLE = "COVID-19 in "+mundata[currentMun]["name"] ;
+
+	reloadData();
+	updateMath();
+
+}
+
+
 
 // The following functions are based on https://stackoverflow.com/a/32060010/5181692
 
