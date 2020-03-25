@@ -191,7 +191,7 @@ function getDataWithProjection(data, curHospitalisations) {
 		}
 		if (algorithm == 0) { // old algorithm
 			thisRow.push(element.peopleInHospital);
-		} else { // new algorithm
+		} else { // new algorithm, even if undefined
 			thisRow.push(element.hospitalBedsInUse);
 		}
 		//console.log(thisRow);
@@ -226,7 +226,7 @@ function updateMath() {
 	//console.log(dataArray);
 	var population = $("#population").val() ;
 	var infectionsPerCapita = $("#infectionsPerCapita").val() ;
-	var hospitalisationsPerInfection = $("#hospitalisationsPerInfection").val() ;
+	var hospitalisationsPerInfection = Number($("#hospitalisationsPerInfection").val()) ;
 	var testingEfficacy = $("#testingEfficacy").val()
 
 
@@ -235,8 +235,12 @@ function updateMath() {
 	var totalHospitalisations = totalInfections * hospitalisationsPerInfection ;
 
 	var currentNumberOfInfections = getCurrentNumberOfInfections(dataArray) ;
-	var efficacyOffset = ((totalInfections - totalHospitalisations) / 100) * testingEfficacy;
-	var currentStdevsFromMean = NormSInv(currentNumberOfInfections / (totalHospitalisations + efficacyOffset)) ;
+	//var efficacyOffset = (testingEfficacy / 100) * (totalInfections - totalHospitalisations) ;
+	var efficacyOffset = (((1-hospitalisationsPerInfection)/100)*testingEfficacy)
+	var efficacyFactor = (hospitalisationsPerInfection/(hospitalisationsPerInfection+efficacyOffset))
+	// normsinv is cumulative standardized normal distribution
+	var currentStdevsFromMean = NormSInv((currentNumberOfInfections * efficacyFactor) / totalHospitalisations) ;
+	//console.log(currentNumberOfInfections, totalHospitalisations, hospitalisationsPerInfection, efficacyOffset, efficacyFactor);
 
 	var daysSinceFirstInfection = getDaysSinceFirstInfection(dataArray) ;
 	//console.log(currentNumberOfInfections, daysSinceFirstInfection, totalHospitalisations, currentStdevsFromMean);

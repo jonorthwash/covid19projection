@@ -203,17 +203,17 @@
 				<td><input class="number" id="hospitalisationsPerInfection" type="number" name="hospitalisationsPerInfection" value=".2" style="width: 4em;" min="0.00" max="1.00" step=".01" oninput="updateMath();"/></td>
 			</tr>
 			<tr>
-				<th>Testing efficacy (only hospitalisations ... all cases)</th>
-				<td><div class="slidecontainer">
+				<th>Testing efficacy</th>
+				<td><div class="slidecontainer" title="Percentage of infections identified (only hospitalisations ... total infections)">
 					<input type="range" min="0" max="100" value="10" class="slider" id="testingEfficacy" oninput="updateMath();"/>
 				</div></td>
 			</tr>
-			<tr>
+			<!-- tr>
 				<th>Algorithm (old / new)</th>
 				<td><div class="slidecontainer">
 					<input type="range" min="0" max="1" value="1" class="slider" id="algorithm" oninput="updateMath();"/>
 				</div></td>
-			</tr>
+			</tr -->
 			<tr><th colspan="2" class="header">Adjust view</th></tr>
 			<tr>
 				<th colspan="2">Last date to view
