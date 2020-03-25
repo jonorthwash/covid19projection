@@ -57,7 +57,7 @@ function makeDataObject (data, currentStdevsFromMean, latestDate) {
 	}
 	//console.log(beginDate, endDate, latestDate);
 	var dates = [] ;
-	var dateData = {date: null, stdevFromMean: null, proportionOfMaxDailyInfectionsAtPeak: null, natLogOfRate: null, newHospitalisations: null, peopleInHospital: null}
+	var dateData = {date: null, stdevFromMean: null, proportionOfMaxDailyInfectionsAtPeak: null, natLogOfRate: null, newHospitalisations: null, peopleInHospital: null, cumulativeHospitalisations: null, hospitalBedsInUse: null}
 	//console.log(endDate);
 	var currentDate = new moment(beginDate);  // gotta copy the variable or it screws things up
 	//console.log(currentDate);
@@ -89,7 +89,7 @@ function makeDataObject (data, currentStdevsFromMean, latestDate) {
 	return dates
 }
 
-function getNumberOfHospitalisations(data, currentStdevsFromMean, maxHospitalisationsPerDay) {
+function getNumberOfHospitalisations(data, currentStdevsFromMean, maxHospitalisationsPerDay, totalHospitalisationsPlusEfficacyOffset) {
 	//$.each(data, function(index, element) {
 	//	console.log(index, element);
 	//});
@@ -134,6 +134,13 @@ function getNumberOfHospitalisations(data, currentStdevsFromMean, maxHospitalisa
 			element.peopleInHospital = hospitalisationDuration * Math.exp((element.natLogOfRate + preHospitalisationNatLogOfRate)/2) * maxHospitalisationsPerDay
 			//var peopleInHospitalPerDay = hospitalisationDuration * Math.exp((natLogOfRate + preHospitalisationNatLogOfRate)/2) * maxHospitalisationsPerDay ;
 		}
+
+		// a more accurate (and slightly less conservative) way to calculate
+		element.cumulativeHospitalisations = ((1+erf(element.stdevFromMean/Math.sqrt(2)))/2)*totalHospitalisationsPlusEfficacyOffset ;
+		if (0 in daysAgo) {
+			element.hospitalBedsInUse = element.cumulativeHospitalisations - daysAgo[0].cumulativeHospitalisations ;
+		}
+
 	});
 
 	//console.log(dates);
@@ -181,7 +188,8 @@ function getDataWithProjection(data, curHospitalisations) {
 		} else {
 			thisRow.push(null, null, null, null);
 		}
-		thisRow.push(element.peopleInHospital);
+		//thisRow.push(element.peopleInHospital);
+		thisRow.push(element.hospitalBedsInUse);
 		//console.log(thisRow);
 		//console.log(element);
 		outputArray.push(thisRow);
@@ -235,7 +243,7 @@ function updateMath() {
 	$("#currentNumberOfInfections").val( currentNumberOfInfections );
 	$("#daysSinceFirstInfection").val( daysSinceFirstInfection );
 
-	curHospitalisations = getNumberOfHospitalisations(dataArray, currentStdevsFromMean, maxHospitalisationsPerDay);
+	curHospitalisations = getNumberOfHospitalisations(dataArray, currentStdevsFromMean, maxHospitalisationsPerDay, totalHospitalisations + efficacyOffset);
 	//console.log(curHospitalisations);
 
 	dataWithProjection = getDataWithProjection(dataArray, curHospitalisations);
