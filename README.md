@@ -24,6 +24,7 @@ Alternative data (`pa_delco1.csv`) from:
 * `statsFunctions.js` functions from https://stackoverflow.com/questions/8816729/javascript-equivalent-for-inverse-normal-function-eg-excels-normsinv-or-nor/55837025
 * `jquery.csv.min.js` from http://bl.ocks.org/espinielli/8d106a5cf9aa99734d43#jquery.csv.min.js
 * `drawAdditionalHAxis` function and supporting functions based on https://stackoverflow.com/a/32060010/5181692
+* `moment.min.js` from https://momentjs.com/
 
 # License
 
