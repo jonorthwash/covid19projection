@@ -12,7 +12,7 @@ Currently the data being tracked is only for a couple counties in Pennsylvania. 
 
 ## Use
 
-The tool may be accessed live at https://jonorthwash.github.io/covid19math/ .
+The tool may be accessed live at https://jonorthwash.github.io/covid19projection/ .
 
 Feel free to submit issues or PRs, or simply fork and modify.
 
