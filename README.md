@@ -2,11 +2,13 @@
 
 ## Purpose
 
-This tool is meant to visualise the current state of the COVID-19 pandemic in a given area and project where things are headed, e.g., to determine when hospital beds will be at capacity.
+This tool uses Farr's law to model where in the beginning of the COVID-19 pandemic a given area is, and to project when hospitals may reach capacity.
 
-The tool assumes a Bell curve of new cases over time based on population size, proportion of the population affected, etc.; calculates where in the curve we are now; and extrapolates the rest of the curve based on that.
+The tool assumes a Gaussian curve of new cases over time based on population size, proportion of the population anticipated to be affected, and other variables; calculates where in the curve we are now; and extrapolates the rest of the curve based on that.
 
-Currently the data is only for a couple counties in Pennsylvania.  Feel free to submit more data via pull request!
+This tool is *not* meant to give an exact model of the course of the pandemic.
+
+Currently the data being tracked is only for a couple counties in Pennsylvania.  Feel free to submit more data via pull request!
 
 ## Use
 
@@ -17,12 +19,38 @@ Feel free to submit issues or PRs, or simply fork and modify.
 ## Assumptions
 
 This tool relies on the following assumptions:
-* the distribution of new cases in time is roughly a Bell curve,
+* the distribution of new cases in time is roughly a Gaussian curve,
 * a single standard deviation's worth of cases will span a certain number of days,
 * mitigation factors can affect the length of this span,
 * mitigation factors can affect the infection rate,
 * the efficacy of testing falls somewhere between detecting only those cases needing hospitalisation and detecting every single infection.
 
+## Math
+
+Assume the following constants/variables:
+
+```
+δ - duration of hospitalization stay
+D - days per standard deviation (around peak)
+C - number of people infected
+I - infection rate (percentage of population affected)
+J - hospitalization rate (percentage of those infected needing hospitalization)
+N - total population
+H - cumulative hospitalizations 
+h - daily hospitalizations
+t - time (in days)
+ₜ - [for current time] 
+ₓ - [a given index]
+T - factor of testing efficacy (ranges from J to 1)
+```
+
+To solve for daily hospitalisations on a given day (*hₓ*):
+```
+σₜ = normsinv( ( Cₜ × ( J / (J + T) ) ) / ( N × I × J ) )
+σₓ = σₜ + ( ( tₓ - tₜ) / D )
+Hₓ = ( ( 1 + erf( σₓ / √2 ) ) / 2 ) × H
+hₓ = Hₓ - H₍ ₓ - δ ₎
+```
 
 
 # Sources

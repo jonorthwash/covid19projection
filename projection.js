@@ -93,7 +93,6 @@ function getNumberOfHospitalisations(data, currentStdevsFromMean, maxHospitalisa
 	//$.each(data, function(index, element) {
 	//	console.log(index, element);
 	//});
-
 	//console.log(data);
 	var header = data[0];
 	var dateIdx = header.findIndex(function (x){return x=="date"});
@@ -251,7 +250,7 @@ function updateMath() {
 	$("#currentNumberOfInfections").val( currentNumberOfInfections );
 	$("#daysSinceFirstInfection").val( daysSinceFirstInfection );
 
-	curHospitalisations = getNumberOfHospitalisations(dataArray, currentStdevsFromMean, maxHospitalisationsPerDay, totalHospitalisations + efficacyOffset);
+	curHospitalisations = getNumberOfHospitalisations(dataArray, currentStdevsFromMean, maxHospitalisationsPerDay, totalHospitalisations);
 	//console.log(curHospitalisations);
 
 	dataWithProjection = getDataWithProjection(dataArray, curHospitalisations);
