@@ -44,8 +44,9 @@
 			//CSV_LOADED = true;
 			//google.setOnLoadCallback(drawVisualization);
 			//console.log("LOADED");
-			drawVisualization();
+			setLatestDate();
 			updateMath();
+			drawVisualization();
 		});
 
 		//$(document).ready(function() {
@@ -131,6 +132,10 @@
 				drawAdditionalHAxis(covidgraph.getChart(), hospitalLimit);
 			//}
 		}
+		$(document).ready( function () {
+			lastViewDate.min = new Date().toISOString().split("T")[0];
+			//updateMath();
+		});
 
 		//$(document).ready( function() { updateMath() });
 		//updateMath();
@@ -214,10 +219,15 @@
 					<input type="range" min="0" max="1" value="1" class="slider" id="algorithm" oninput="updateMath();"/>
 				</div></td>
 			</tr -->
+			<tr>
+				<th colspan="2">Pin projection from
+					<input style="float: right" class="number" id="pinnedDate" type="date" name="pinnedDate" oninput="updateMath();"/></th>
+			</tr>
+
 			<tr><th colspan="2" class="header">Adjust view</th></tr>
 			<tr>
-				<th colspan="2">Last date to view
-					<input style="float: right" class="number" id="lastViewDate" type="date" name="lastViewDate" value="2020-04-13"  min="1" max="100" oninput="updateMath();"/></th>
+				<th colspan="2">Edge of graph
+					<input style="float: right" class="number" id="lastViewDate" type="date" name="lastViewDate" value="2020-04-13" oninput="updateMath();"/></th>
 			</tr>
 
 			<tr><th colspan="2" class="header">Current numbers</th></tr>

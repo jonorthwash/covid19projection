@@ -14,27 +14,57 @@ function getMaxHospitalisationsPerDay(totalInfections, hospitalisationsPerInfect
 	return maxHospitalisationsPerDay ;
 }
 
-function getCurrentNumberOfInfections(data) {
+function updatePinnedDate(date) {
+	var newDate = new moment(date).format("YYYY-MM-DD")
+	$("body").data("pinnedDate", date);
+	$("#pinnedDate").val(newDate);
+}
+
+function getCurrentNumberOfInfections(data, date) {
 	var header = data[0];
+	var data = data.slice(1,);
+
+	var dateIdx = header.findIndex(function (x){return x=="date"});
 	var casesIdx = header.findIndex(function (x){return x=="reported total cases"});
+	var curCases = 0;
 	//console.log(header, casesIdx);
-	var latestRow = data[Object.keys(data).pop()];
+	//console.log(data.slice(1,), data.length);
+	for (row in data) {
+		//console.log(row, data[row],moment(data[row][dateIdx]).diff(pinnedDate, 'days'));
+		if (Math.abs(moment(data[row][dateIdx]).diff(date, 'days')) < 1) {
+			//console.log(data[row])
+			curCases = data[row][casesIdx];
+		}
+	}
 	//console.log(latestRow[casesIdx]);
-	return latestRow[casesIdx];
+	//return latestRow[casesIdx];
+	return curCases ;
+}
+
+function setLatestDate(){
+	var data = $("body").data("data");
+	var latestRow = data[Object.keys(data).pop()];
+	var dateIdx = data[0].findIndex(function (x){return x=="date"});
+	//var currentInfectionRow = latestRow;
+	$("#pinnedDate").val(moment(latestRow[dateIdx]).format("YYYY-MM-DD"));
 }
 
 function getDaysSinceFirstInfection(data) {
 	var header = data[0];
 	var dateIdx = header.findIndex(function (x){return x=="date"});
-	var latestRow = data[Object.keys(data).pop()];
+	//var latestRow = data[Object.keys(data).pop()];
 	var firstInfectionRow = data[1];
-	var currentInfectionRow = latestRow;
+	//var currentInfectionRow = latestRow;
 	//console.log(currentInfectionRow);
-	var firstInfectionDate = new Date(firstInfectionRow[dateIdx]);
-	var currentInfectionDate = new Date(currentInfectionRow[dateIdx]);
+	var firstInfectionDate = new moment(new Date(firstInfectionRow[dateIdx]));
+	//var currentInfectionDate = new Date(currentInfectionRow[dateIdx]);
+	var currentInfectionDate = new moment($("#pinnedDate").val());
 	//console.log(firstInfectionRow[dateIdx], currentInfectionRow[dateIdx]);
 	//console.log(firstInfectionDate.toUTCString(), currentInfectionDate.toUTCString());
-	var numDays = Math.round((currentInfectionDate - firstInfectionDate) / (1000 * 3600 * 24));
+	//var numDays = Math.round((currentInfectionDate - firstInfectionDate) / (1000 * 3600 * 24));
+	//console.log(firstInfectionDate, currentInfectionDate);
+	var numDays = currentInfectionDate.diff(firstInfectionDate, 'days')
+	//console.log(numDays);
 	return numDays
 }
 
@@ -96,7 +126,8 @@ function getNumberOfHospitalisations(data, currentStdevsFromMean, maxHospitalisa
 	//console.log(data);
 	var header = data[0];
 	var dateIdx = header.findIndex(function (x){return x=="date"});
-	var todaysDate = new moment(data[Object.keys(data).pop()][dateIdx]);
+	//var todaysDate = new moment(data[Object.keys(data).pop()][dateIdx]);
+	var todaysDate = new moment($("#pinnedDate").val());
 
 	var hospitalisationDuration = $("#hospitalisationDuration").val() ;
 	var daysPerStdev = $("#daysPerStdev").val() ;
@@ -208,16 +239,9 @@ function reloadData() {
 		// transform the CSV string into a 2-dimensional array
 		var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
 		$("body").data("data", arrayData);
+		setLatestDate();
 		updateMath();
 	});
-	//jQuery.ajax({
-	//	url: dataSource,
-	//	async: false,
-	//	success: function(csvString) {
-	//		var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
-	//		$("body").data("data", arrayData);
-	//	}
-	//});
 }
 
 function updateMath() {
@@ -233,7 +257,21 @@ function updateMath() {
 	var maxHospitalisationsPerDay = getMaxHospitalisationsPerDay(totalInfections, hospitalisationsPerInfection);
 	var totalHospitalisations = totalInfections * hospitalisationsPerInfection ;
 
-	var currentNumberOfInfections = getCurrentNumberOfInfections(dataArray) ;
+
+	var oldPinnedDate = $("body").data("pinnedDate");
+	var pinnedDate = new moment($("#pinnedDate").val());	
+	$("body").data("pinnedDate", pinnedDate);
+
+	var currentNumberOfInfections = getCurrentNumberOfInfections(dataArray, pinnedDate) ;
+	if (currentNumberOfInfections == undefined || currentNumberOfInfections == 0) {
+		//var latestRow = data[Object.keys(data).pop()];
+		//curCases = latestRow[casesIdx];
+		//console.log(oldPinnedDate,pinnedDate);
+		pinnedDate = Object.assign({}, oldPinnedDate);
+		updatePinnedDate(pinnedDate) ;
+		currentNumberOfInfections = getCurrentNumberOfInfections(dataArray, pinnedDate) ;
+	}
+
 	//var efficacyOffset = (testingEfficacy / 100) * (totalInfections - totalHospitalisations) ;
 	var efficacyOffset = (((1-hospitalisationsPerInfection)/100)*testingEfficacy)
 	var efficacyFactor = (hospitalisationsPerInfection/(hospitalisationsPerInfection+efficacyOffset))
@@ -337,8 +375,3 @@ function createText(x, y, fontFamily, fontSize,color,value) {
     text.innerHTML = value;
     return text;
 }
-
-$(document).load( function () {
-	lastViewDate.min = new Date().toISOString().split("T")[0];
-	//updateMath();
-});
