@@ -33,7 +33,7 @@
 
 		CSV_LOADED = false;
 
-		$.get("pa_delco.csv", function(csvString) {
+		$.get("data/pa_delco.csv", function(csvString) {
 			//console.log($("dataSource").val());
 			//$.get($("#dataSource").val(), function(csvString) {
 			// transform the CSV string into a 2-dimensional array
@@ -49,7 +49,7 @@
 		});
 
 		//$(document).ready(function() {
-			$.getJSON("municipalities.json", function ( mundata ) {
+			$.getJSON("data/municipalities.json", function ( mundata ) {
 				//console.log(mundata);
 				$("body").data("municipalities", mundata);
 				setMunicipality();
@@ -173,8 +173,8 @@
 			<tr>
 				<th>Data source</th>
 				<td><select id="dataSource" onchange="reloadData();">
-					<option value="pa_delco.csv">health.pa.gov</option>
-					<option value="pa_delco1.csv">ChesCo DoH</option>
+					<option value="data/pa_delco.csv">health.pa.gov</option>
+					<option value="data/pa_delco1.csv">ChesCo DoH</option>
 				</select></td>
 			</tr>
 			<tr>
