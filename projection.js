@@ -17,7 +17,7 @@ function getMaxHospitalisationsPerDay(totalInfections, hospitalisationsPerInfect
 function getCurrentNumberOfInfections(data) {
 	var header = data[0];
 	var casesIdx = header.findIndex(function (x){return x=="reported total cases"});
-	console.log(header, casesIdx);
+	//console.log(header, casesIdx);
 	var latestRow = data[Object.keys(data).pop()];
 	//console.log(latestRow[casesIdx]);
 	return latestRow[casesIdx];
