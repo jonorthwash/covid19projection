@@ -26,5 +26,15 @@
 			{
 				"msdh.ms.gov": "data/ms.csv"
 			}
+	},
+	"3": {
+		"name": "United Kingdom",
+		"population": 68000000,
+		"hospital beds": 141000,
+		"data sources":
+			{
+				"theguardian": "data/uk.csv"
+			}
 	}
+
 }
