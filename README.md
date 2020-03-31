@@ -66,10 +66,15 @@ Alternative data (`pa_delco1.csv`) from:
 Mississippi data (`ms.csv`) from:
 * https://msdh.ms.gov/msdhsite/_static/14,0,420.html
 
+UK data (`uk.csv`) from:
+* https://www.worldometers.info/coronavirus/country/uk/
+* https://www.theguardian.com/world/2020/mar/28/coronavirus-uk-how-many-confirmed-cases-are-in-your-area 
+
 Hospital data from:
 * [List of hospitals in Pennsylvania](https://en.wikipedia.org/wiki/List_of_hospitals_in_Pennsylvania)
 * [Springfield Hospital](https://www.crozerkeystone.org/springfield)
 * [Mississippi Acute Care Facilities and Services Overview](http://www.msdh.state.ms.us/msdhsite/_static/resources/7756.pdf)
+* [https://www.kingsfund.org.uk/publications/nhs-hospital-bed-numbers](NHS Hospital Bed Numbers)
 
 Population data rounded from [Wikipedia](https://wikipedia.org/) figures.
 

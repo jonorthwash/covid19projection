@@ -33,7 +33,7 @@
 		"hospital beds": 141000,
 		"data sources":
 			{
-				"theguardian": "data/uk.csv"
+				"combined": "data/uk.csv"
 			}
 	}
 
