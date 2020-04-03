@@ -70,11 +70,15 @@ UK data (`uk.csv`) from:
 * https://www.worldometers.info/coronavirus/country/uk/
 * https://www.theguardian.com/world/2020/mar/28/coronavirus-uk-how-many-confirmed-cases-are-in-your-area 
 
+Kyrgyzstan data (`kyrgyzstan.csv`) from:
+* https://kaktus.media/?lable=38735
+
 Hospital data from:
 * [List of hospitals in Pennsylvania](https://en.wikipedia.org/wiki/List_of_hospitals_in_Pennsylvania)
 * [Springfield Hospital](https://www.crozerkeystone.org/springfield)
 * [Mississippi Acute Care Facilities and Services Overview](http://www.msdh.state.ms.us/msdhsite/_static/resources/7756.pdf)
 * [https://www.kingsfund.org.uk/publications/nhs-hospital-bed-numbers](NHS Hospital Bed Numbers)
+* [http://www.stat.kg/ru/statistics/zdravoohranenie/](Национальный статистический комитет Кыргызской Республики - Здравоохранение)
 
 Population data rounded from [Wikipedia](https://wikipedia.org/) figures.
 

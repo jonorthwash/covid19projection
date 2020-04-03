@@ -35,6 +35,15 @@
 			{
 				"combined": "data/uk.csv"
 			}
+	},
+	"4": {
+		"name": "Kyrgyzstan",
+		"population": 6400000,
+		"hospital beds": 26634,
+		"data sources":
+			{
+				"combined": "data/kyrgyzstan.csv"
+			}
 	}
 
 }
