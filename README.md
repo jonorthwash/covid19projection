@@ -77,8 +77,8 @@ Hospital data from:
 * [List of hospitals in Pennsylvania](https://en.wikipedia.org/wiki/List_of_hospitals_in_Pennsylvania)
 * [Springfield Hospital](https://www.crozerkeystone.org/springfield)
 * [Mississippi Acute Care Facilities and Services Overview](http://www.msdh.state.ms.us/msdhsite/_static/resources/7756.pdf)
-* [https://www.kingsfund.org.uk/publications/nhs-hospital-bed-numbers](NHS Hospital Bed Numbers)
-* [http://www.stat.kg/ru/statistics/zdravoohranenie/](Национальный статистический комитет Кыргызской Республики - Здравоохранение)
+* [NHS Hospital Bed Numbers](https://www.kingsfund.org.uk/publications/nhs-hospital-bed-numbers)
+* [Национальный статистический комитет Кыргызской Республики - Здравоохранение](http://www.stat.kg/ru/statistics/zdravoohranenie/)
 
 Population data rounded from [Wikipedia](https://wikipedia.org/) figures.
 
