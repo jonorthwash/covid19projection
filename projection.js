@@ -184,8 +184,12 @@ function getDataWithProjection(data, curHospitalisations) {
 	//var maxColNum = Number(Object.keys(outputArray[0]).reduce((a,b) => outputArray[0][a] > outputArray[0][b] ? a : b ));
 	//console.log(outputArray);
 	//outputArray[0][maxColNum+1] = 'projected hospitalisations'; // add column
+	outputArray[0].push('total cases days to double');
 	outputArray[0].push('projected hospital bed use');
 	//console.log(curHospitalisations);
+	var newCasesIdx = outputArray[0].findIndex(function (x){return x=="reported new cases"});
+	var totalCasesIdx = outputArray[0].findIndex(function (x){return x=="reported total cases"});
+
 	$.each(curHospitalisations, function(index, element) {
 		var thisRow = [];
 		//console.log(data);
@@ -210,21 +214,31 @@ function getDataWithProjection(data, curHospitalisations) {
 		//console.log(element.date);
 		//thisRow.push(new Date(element.date));
 		thisRow.push(element.date);
+
 		if (correspondingData.length !== undefined && correspondingData.length != 0) {
-			//console.log(correspondingData);
+			//console.log(correspondingData[0][1]);
 			thisRow.push(correspondingData[0][1]);
 			thisRow.push(correspondingData[0][2]);
 			thisRow.push(correspondingData[0][3]);
 			thisRow.push(correspondingData[0][4]);
+
+			//console.log("correspondingData", correspondingData);
+			if (correspondingData[0][newCasesIdx] != 0 ) {
+				var daysToDouble = (correspondingData[0][totalCasesIdx] - correspondingData[0][newCasesIdx]) / correspondingData[0][newCasesIdx] ;
+				//console.log(daysToDouble);
+				thisRow.push(daysToDouble);
+			} else {
+				thisRow.push(null);
+			}
 		} else {
-			thisRow.push(null, null, null, null);
+			thisRow.push(null, null, null, null, null);
 		}
 		if (algorithm == 0) { // old algorithm
 			thisRow.push(element.peopleInHospital);
 		} else { // new algorithm, even if undefined
 			thisRow.push(element.hospitalBedsInUse);
 		}
-		//console.log(thisRow);
+		console.log(thisRow);
 		//console.log(element);
 		outputArray.push(thisRow);
 	});
