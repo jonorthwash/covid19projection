@@ -19,6 +19,15 @@
 			}
 	},
 	"2": {
+		"name": "Clinton County, Pennsylvania",
+		"population": 39000,
+		"hospital beds": 63,
+		"data sources":
+			{
+				"health.pa.gov": "data/pa_clinton.csv"
+			}
+	},
+	"3": {
 		"name": "Mississippi",
 		"population": 3000000,
 		"hospital beds": 13155,
@@ -27,7 +36,7 @@
 				"msdh.ms.gov": "data/ms.csv"
 			}
 	},
-	"3": {
+	"4": {
 		"name": "United Kingdom",
 		"population": 68000000,
 		"hospital beds": 141000,
@@ -36,7 +45,7 @@
 				"combined": "data/uk.csv"
 			}
 	},
-	"4": {
+	"5": {
 		"name": "Kyrgyzstan",
 		"population": 6400000,
 		"hospital beds": 26634,
@@ -45,5 +54,4 @@
 				"combined": "data/kyrgyzstan.csv"
 			}
 	}
-
 }

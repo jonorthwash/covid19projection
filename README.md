@@ -56,7 +56,7 @@ hₓ = Hₓ - H₍ ₓ - δ ₎
 # Sources
 ## Data
 
-Delaware County data (`pa_delco.csv`) and Montgomery County (`pa_montco.csv`) from:
+Delaware County data (`pa_delco.csv`) and Montgomery County (`pa_montco.csv`) and Clinton County (`pa_clinton.csv`) from:
 * https://www.health.pa.gov/topics/disease/coronavirus/Pages/Archives.aspx
 * https://www.health.pa.gov/topics/disease/coronavirus/Pages/Cases.aspx
 
