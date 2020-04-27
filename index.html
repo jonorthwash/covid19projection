@@ -193,7 +193,7 @@
 			<tr><th colspan="2" class="header">Variables</th></tr>
 			<tr>
 				<th>Days per standard deviation</th>
-				<td><input class="number" id="daysPerStdev" type="number" name="daysPerStdev" title="How many days a single standard deviation of cases around the peak lasts" value="14" style="width: 4em;" min="1" max="1000"  oninput="updateMath();"/></td>
+				<td><input class="number" id="daysPerStdev" type="number" name="daysPerStdev" title="How many days a single standard deviation of cases around the peak lasts" value="18" style="width: 4em;" min="1" max="1000"  oninput="updateMath();"/></td>
 			</tr>
 			<tr>
 				<th>Hospitalisation duration</th>
@@ -210,7 +210,7 @@
 			<tr>
 				<th>Testing efficacy</th>
 				<td><div class="slidecontainer" title="Percentage of infections identified (only hospitalisations ... total infections)">
-					<input type="range" min="0" max="100" value="25" class="slider" id="testingEfficacy" oninput="updateMath();"/>
+					<input type="range" min="0" max="100" value="30" class="slider" id="testingEfficacy" oninput="updateMath();"/>
 				</div></td>
 			</tr>
 			<!-- tr>
@@ -227,7 +227,7 @@
 			<tr><th colspan="2" class="header">Adjust view</th></tr>
 			<tr>
 				<th colspan="2">Edge of graph
-					<input style="float: right" class="number" id="lastViewDate" type="date" name="lastViewDate" value="2020-04-29" oninput="updateMath();"/></th>
+					<input style="float: right" class="number" id="lastViewDate" type="date" name="lastViewDate" value="2020-05-31" oninput="updateMath();"/></th>
 			</tr>
 
 			<tr><th colspan="2" class="header">Current numbers</th></tr>
