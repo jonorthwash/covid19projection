@@ -72,6 +72,7 @@ UK data (`uk.csv`) from:
 
 Kyrgyzstan data (`kyrgyzstan.csv`) from:
 * https://kaktus.media/?lable=38735
+* http://covid.kg
 
 Hospital data from:
 * [List of hospitals in Pennsylvania](https://en.wikipedia.org/wiki/List_of_hospitals_in_Pennsylvania)
